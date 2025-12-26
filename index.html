@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ESP32 Remote</title>
+    <title>ESP32 Global Remote</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <style>
-        body { text-align: center; font-family: Arial; background: #222; color: white; padding-top: 50px; }
-        .btn { padding: 30px 60px; font-size: 30px; cursor: pointer; border: none; border-radius: 15px; margin: 10px; }
-        .on { background: #ff9800; }
-        .off { background: #555; }
+        body { background: #1a1a1a; color: white; text-align: center; font-family: 'Segoe UI', sans-serif; }
+        .btn { padding: 40px; width: 80%; max-width: 300px; font-size: 24px; border-radius: 20px; border: none; margin: 20px; cursor: pointer; transition: 0.3s; }
+        .on { background: #f1c40f; color: black; box-shadow: 0 0 20px #f1c40f; }
+        .off { background: #2c3e50; color: white; }
     </style>
 </head>
 <body>
-    <h1>ESP32 Control Panel</h1>
-    <button class="btn on" onclick="sendCommand(1)">LIGHT ON</button>
-    <button class="btn off" onclick="sendCommand(0)">LIGHT OFF</button>
+    <h1>Cloud LED Control</h1>
+    <button class="btn on" onclick="setLight(1)">LIGHT ON</button><br>
+    <button class="btn off" onclick="setLight(0)">LIGHT OFF</button>
 
     <script>
-        function sendCommand(val) {
-            // Replace with your Firebase or bridge URL
-            fetch('https://YOUR-PROJECT.firebaseio.com/light.json?put=' + val);
-            alert("Command Sent: " + val);
+        // Paste your Firebase Config from Project Settings > Apps > Web (</>)
+        const firebaseConfig = {
+            databaseURL: "https://YOUR-PROJECT-rtdb.firebaseio.com/"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        function setLight(val) {
+            db.ref('ledStatus').set(val);
         }
     </script>
 </body>
