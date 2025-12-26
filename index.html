@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ESP32 Remote</title>
+    <style>
+        body { text-align: center; font-family: Arial; background: #222; color: white; padding-top: 50px; }
+        .btn { padding: 30px 60px; font-size: 30px; cursor: pointer; border: none; border-radius: 15px; margin: 10px; }
+        .on { background: #ff9800; }
+        .off { background: #555; }
+    </style>
+</head>
+<body>
+    <h1>ESP32 Control Panel</h1>
+    <button class="btn on" onclick="sendCommand(1)">LIGHT ON</button>
+    <button class="btn off" onclick="sendCommand(0)">LIGHT OFF</button>
+
+    <script>
+        function sendCommand(val) {
+            // Replace with your Firebase or bridge URL
+            fetch('https://YOUR-PROJECT.firebaseio.com/light.json?put=' + val);
+            alert("Command Sent: " + val);
+        }
+    </script>
+</body>
+</html>
