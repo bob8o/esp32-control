@@ -17,16 +17,28 @@
     <button class="btn off" onclick="setLight(0)">LIGHT OFF</button>
 
     <script>
-        // Paste your Firebase Config from Project Settings > Apps > Web (</>)
-        const firebaseConfig = {
-            databaseURL: "https://myesp32control-eabfc-default-rtdb.firebaseio.com/"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+    // 1. The config MUST have the databaseURL
+    var firebaseConfig = {
+        // Replace 'myesp32control-eabfc' with your actual project ID if different
+        databaseURL: "https://myesp32control-eabfc-default-rtdb.firebaseio.com/"
+    };
+    
+    // 2. Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.database();
 
-        function setLight(val) {
-            db.ref('ledStatus').set(val);
-        }
-    </script>
+    function setLight(val) {
+        console.log("Attempting to set ledStatus to:", val);
+        
+        // Write to the database
+        db.ref('ledStatus').set(val)
+          .then(() => {
+              console.log("Firebase Update Successful!");
+          })
+          .catch((error) => {
+              console.error("Firebase Update Failed:", error);
+          });
+    }
+</script>
 </body>
 </html>
